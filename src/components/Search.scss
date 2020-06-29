@@ -1,0 +1,49 @@
+$color-grey: #878787;
+$color-green: rgb(4, 107, 130);
+$color-blue: cornflowerblue;
+$color-text1: #d5d5d5;
+
+.Search {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: min-content;
+    .title {
+        margin: 2rem;
+        width: 25%;
+        height: 2rem;
+        
+    }
+    .searchbar {
+       width: 100%;
+       margin: .5rem 2rem;
+       .bar{
+           min-width: 20%;
+           height: 2rem;
+           border: .1rem solid $color-green;
+           border-radius: .2rem;
+
+       }
+
+    }
+    .table {
+        margin: .5rem 2rem;
+        background-color: $color-blue;
+        color: $color-text1;
+        font-weight: 600;
+        display: grid;
+        border: 1px solid $color-grey;
+        grid-template-columns: 1fr 2fr 3fr 3fr 3fr;
+        grid-template-rows: 2.5rem;
+        grid-auto-rows: min-content;
+        justify-content: center;
+        align-items: center;
+
+        .item {
+            margin-left: 1rem;
+            
+
+        }
+    }
+
+}
