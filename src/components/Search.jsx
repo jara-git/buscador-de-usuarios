@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import './Search.scss';
-import { generate as id } from 'shortid'; // key generator for map
+// import { generate as id } from 'shortid'; // key generator for map
 
 
 
-const Search= () => {
+const Search = () => {
 
-    // Declara una nueva variable de estado
-    const [searchNow, setSearchNow] =  useState('');
+    // Declare a new state variable
+    const [banana, setBanana] =  useState([]);
+    const [hasError, setHasError] = useState(false);
+    const [userInput, setUserInput] = useState('');
 
-    // nueva variable fetch data
-    
-
+    // fetch data
+    useEffect(() =>{
+    const getData = async () => {
+        await  fetch('https://jsonplaceholder.typicode.com/users')
+        .then(res => res.json())
+        .then(res => setBanana(res))
+        .catch(() => setHasError(true))
+    }
+    getData()}
+  , []);
+  
+  // handle change typing search bar
+  const handleTypeChange = (e) => {
+    setUserInput(e.target.value)
+  }
 
     return (
         <div className="Search">
@@ -19,25 +33,54 @@ const Search= () => {
                 <h1 className='title'>Usuarios</h1>
             </header>
             <section className='searchbar'>
-                <input className='bar' type="text" label='buscador' placeholder="Buscar por nombre, email o website"></input>
+                <input onChange={e => handleTypeChange(e)} className='bar' type="text" label='searcher' placeholder="Buscar por nombre, email o website"></input>
             </section>
-            <section className='table'>
-            <div className='item'>
-                id
-            </div>
-            <div className='item'>
-                Usuario
-            </div>
-            <div className='item'>
-                Email
-            </div>
-            <div className='item'>
-                Dirección
-            </div>
-            <div className='item'>
-                Website
-            </div>
-            </section>
+            <tr className='table'>
+                <th className='item'>
+                    id
+                </th>
+                <th className='item'>
+                    User
+                </th>
+                <th className='item'>
+                    Email
+                </th>
+                <th className='item'>
+                    Address
+                </th>
+                <th className='item'>
+                    Website
+                </th>
+            </tr>
+            {
+                banana.length > 0 && userInput !== '' ? (
+                    banana.filter(el =>{
+                        return el.name.toLowerCase().indexOf(userInput.toLowerCase()) !== -1 || el.email.toLowerCase().indexOf(userInput.toLowerCase()) !== -1 || el.website.toLowerCase().indexOf(userInput.toLowerCase()) !== -1 
+                    }).map(row => (
+                        <tr className='table' key={row.id}>
+                            <th className='item'>
+                                {row.id}
+                            </th>
+                            <th className='item'>
+                                {row.name}
+                            </th>
+                            <th className='item'>
+                                {row.email}
+                            </th>
+                            <th className='item'>
+                                {row.address.street}
+                            </th>
+                            <th className='item'>
+                                {row.website}
+                            </th>
+                        </tr>
+                        
+                    ))
+                ):(
+                    <p></p>
+                )
+
+            }
         </div>
     );
 }
